@@ -37,7 +37,7 @@
 	</bean>
 
 	<integration:poller id="shortPoller">
-		<integration:interval-trigger interval="500" />
+		<integration:interval-trigger interval="2000" />
 	</integration:poller>
 
 </beans>
