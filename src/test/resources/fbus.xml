@@ -5,16 +5,34 @@
 	xmlns:integration="http://www.springframework.org/schema/integration"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
+	<!-- Example channel (queue semantics, capacity of 50 items) -->
+
 	<integration:channel id="hdfsImportChannel">
 		<integration:queue capacity="50" />
 	</integration:channel>
 
+	<!-- Example directory scanning source. -->
+
 	<bean id="hdfsImportFileSource"
 		class="org.springframework.integration.file.FileReadingMessageSource">
-		<property name="inputDirectory"
-			value="file:/Users/esammer/Documents/Code/com.cloudera.fbus/import" />
+		<property name="inputDirectory" value="file:import" />
 		<property name="autoCreateDirectory" value="true" />
 	</bean>
+
+	<!-- Example local destination. -->
+
+	<bean id="homeDirectoryDestination" class="com.cloudera.fbus.LocalDirectoryDestination">
+		<property name="directory" value="file:output" />
+		<property name="autoCreateDirectory" value="true" />
+	</bean>
+
+	<!-- Example HDFS destination. -->
+
+	<bean id="hdfsDirectoryDestination" class="com.cloudera.fbus.HDFSDirectoryDestination">
+		<property name="directory" value="/user/${user.name}/output" />
+	</bean>
+
+	<!-- Channel adapters attach end points to channels. -->
 
 	<integration:inbound-channel-adapter
 		ref="hdfsImportFileSource" channel="hdfsImportChannel">
@@ -22,19 +40,11 @@
 	</integration:inbound-channel-adapter>
 
 	<integration:outbound-channel-adapter
-		ref="hdfsDirectoryDestination" channel="hdfsImportChannel" method="deliver">
+		ref="homeDirectoryDestination" channel="hdfsImportChannel" method="deliver">
 		<integration:poller ref="shortPoller" />
 	</integration:outbound-channel-adapter>
 
-	<bean id="homeDirectoryDestination" class="com.cloudera.fbus.LocalDirectoryDestination">
-		<property name="directory"
-			value="/Users/esammer/Documents/Code/com.cloudera.fbus/output" />
-		<property name="autoCreateDirectory" value="false" />
-	</bean>
-
-	<bean id="hdfsDirectoryDestination" class="com.cloudera.fbus.HDFSDirectoryDestination">
-		<property name="directory" value="/user/esammer/output" />
-	</bean>
+	<!-- Set up a single poller that triggers every 2 seconds. -->
 
 	<integration:poller id="shortPoller">
 		<integration:interval-trigger interval="2000" />

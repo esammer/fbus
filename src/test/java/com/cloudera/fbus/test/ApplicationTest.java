@@ -18,9 +18,11 @@ public class ApplicationTest {
 
   @Test
   public void testApplication() throws InterruptedException, IOException {
-    logger.debug("Application bootstrapped");
+    logger.debug("Application bootstrapped. Letting threads fire for a bit...");
 
-    Thread.sleep(20000);
+    Thread.sleep(5000);
+
+    logger.debug("Shutting down context.");
   }
 
 }
