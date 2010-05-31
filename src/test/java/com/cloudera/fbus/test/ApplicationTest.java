@@ -1,6 +1,5 @@
 package com.cloudera.fbus.test;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
@@ -20,10 +19,6 @@ public class ApplicationTest {
   @Test
   public void testApplication() throws InterruptedException, IOException {
     logger.debug("Application bootstrapped");
-
-    File f = File.createTempFile("test", String.valueOf(System
-        .currentTimeMillis()), new File(
-        "/Users/esammer/Documents/Code/com.cloudera.fbus/import"));
 
     Thread.sleep(20000);
   }
