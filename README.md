@@ -23,7 +23,11 @@ This is a Maven project and can be built by running `mvn assembly:assembly`. A
 number of artifacts will be available in the target directory including a jar
 without the dependencies and one with the dependencies included.
 
-The [Spring Source bundle repository][2] is used 
+The [Spring Source bundle repository][2] is used for Spring dependencies. The
+(currently unpublished) Cloudera repository is used for Hadoop and its
+dependencies. Specifically, this builds against CDH2u1. Some dependencies are
+pulled from Maven Central, but this will move to the Spring Source repository
+to reduce potential metadata issues.
 
 [2]: http://www.springsource.com/repository/app/
 
