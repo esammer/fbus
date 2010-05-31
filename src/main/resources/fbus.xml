@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+	<integration:channel id="hdfsImportChannel">
+		<integration:queue capacity="50" />
+	</integration:channel>
+
+	<bean id="hdfsImportFileSource"
+		class="org.springframework.integration.file.FileReadingMessageSource">
+		<property name="inputDirectory"
+			value="file:/Users/esammer/Documents/Code/com.cloudera.fbus/import" />
+		<property name="autoCreateDirectory" value="true" />
+	</bean>
+
+	<integration:inbound-channel-adapter
+		ref="hdfsImportFileSource" channel="hdfsImportChannel">
+		<integration:poller ref="shortPoller" />
+	</integration:inbound-channel-adapter>
+
+	<integration:outbound-channel-adapter
+		ref="hdfsDirectoryDestination" channel="hdfsImportChannel" method="deliver">
+		<integration:poller ref="shortPoller" />
+	</integration:outbound-channel-adapter>
+
+	<bean id="homeDirectoryDestination" class="com.cloudera.fbus.LocalDirectoryDestination">
+		<property name="directory"
+			value="/Users/esammer/Documents/Code/com.cloudera.fbus/output" />
+		<property name="autoCreateDirectory" value="false" />
+	</bean>
+
+	<bean id="hdfsDirectoryDestination" class="com.cloudera.fbus.HDFSDirectoryDestination">
+		<property name="directory" value="/user/esammer/output" />
+	</bean>
+
+	<integration:poller id="shortPoller">
+		<integration:interval-trigger interval="500" />
+	</integration:poller>
+
+</beans>
