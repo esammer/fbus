@@ -4,6 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cloudera</groupId>
 	<artifactId>com.cloudera.fbus</artifactId>
+	<name>FBus</name>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<repositories>
@@ -35,6 +36,11 @@
 
 	</repositories>
 
+	<description>A file busing system for use with Hadoop.</description>
+	<url>http://github.com/esammer/fbus</url>
+	<scm>
+		<url>git://git@github.com:esammer/fbus.git</url>
+	</scm>
 	<build>
 
 		<plugins>
