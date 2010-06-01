@@ -1,4 +1,4 @@
-fbus - A file bussing system
+fbus - A file busing system
 ============================
 
 Overview
