@@ -4,6 +4,11 @@ import java.io.File;
 
 import org.springframework.integration.message.MessageBuilder;
 
+/**
+ * A Spring Integration message end point suitable for delivering messages with
+ * a {@link File} payload to a local file system directory.
+ * 
+ */
 public class LocalDirectoryDestination {
 
   private File directory;
@@ -36,7 +41,8 @@ public class LocalDirectoryDestination {
     try {
       ensureDirectory();
     } catch (Throwable t) {
-      throw DeliveryException.newWith(MessageBuilder.withPayload(file).build(), t);
+      throw DeliveryException.newWith(MessageBuilder.withPayload(file).build(),
+          t);
     }
 
     destFile = new File(directory + File.separator + file.getName());

@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.integration.message.MessageBuilder;
 import org.springframework.util.Assert;
 
+/**
+ * A Spring Integration end point suitable for delivering messages with a
+ * {@link File} payload to the Hadoop Distributed File System.
+ * 
+ */
 public class HDFSDirectoryDestination {
 
   private static final String tmpSuffix = ".tmp";
